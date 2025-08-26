@@ -1,7 +1,66 @@
+definitions:
+  models.CreateArticleRequest:
+    properties:
+      author:
+        minLength: 3
+        type: string
+      content:
+        minLength: 10
+        type: string
+      title:
+        minLength: 3
+        type: string
+    required:
+    - author
+    - content
+    - title
+    type: object
+  utils.ErrorResponseConfig:
+    properties:
+      code:
+        type: integer
+      error: {}
+      message:
+        type: string
+    type: object
+  utils.SuccessResponseConfig:
+    properties:
+      code:
+        type: integer
+      data: {}
+      message:
+        type: string
+    type: object
 info:
   contact: {}
   description: Boilerplate Go Echo API Service
   title: Boilerplate Go Echo API Service
   version: "1.0"
-paths: {}
+paths:
+  /articles:
+    post:
+      consumes:
+      - application/json
+      description: Add a new article to the database
+      parameters:
+      - description: Article
+        in: body
+        name: article
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateArticleRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/utils.SuccessResponseConfig'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/utils.ErrorResponseConfig'
+      summary: Create an article
+      tags:
+      - articles
 swagger: "2.0"

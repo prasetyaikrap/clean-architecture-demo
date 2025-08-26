@@ -18,6 +18,16 @@ func NewArticlesHandler(articleUsecases *usecases.ArticleUsecases ) *ArticlesHan
 	return &ArticlesHandler{articleUsecases}
 }
 
+// CreateArticle godoc
+// @Summary      Create an article
+// @Description  Add a new article to the database
+// @Tags         articles
+// @Accept       json
+// @Produce      json
+// @Param        article  body      models.CreateArticleRequest  true  "Article"
+// @Success      200      {object}  utils.SuccessResponseConfig
+// @Failure      400      {object}  utils.ErrorResponseConfig
+// @Router       /articles [post]
 func (h *ArticlesHandler) PostCreateArticle(c echo.Context) error {
 	request := models.CreateArticleRequest{}
 	if err := c.Bind(&request); err != nil {

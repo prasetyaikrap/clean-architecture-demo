@@ -14,7 +14,96 @@ const docTemplate = `{
     },
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
-    "paths": {}
+    "paths": {
+        "/articles": {
+            "post": {
+                "description": "Add a new article to the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "articles"
+                ],
+                "summary": "Create an article",
+                "parameters": [
+                    {
+                        "description": "Article",
+                        "name": "article",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.CreateArticleRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/utils.SuccessResponseConfig"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/utils.ErrorResponseConfig"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "models.CreateArticleRequest": {
+            "type": "object",
+            "required": [
+                "author",
+                "content",
+                "title"
+            ],
+            "properties": {
+                "author": {
+                    "type": "string",
+                    "minLength": 3
+                },
+                "content": {
+                    "type": "string",
+                    "minLength": 10
+                },
+                "title": {
+                    "type": "string",
+                    "minLength": 3
+                }
+            }
+        },
+        "utils.ErrorResponseConfig": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "error": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "utils.SuccessResponseConfig": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer"
+                },
+                "data": {},
+                "message": {
+                    "type": "string"
+                }
+            }
+        }
+    }
 }`
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
