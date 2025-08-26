@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"go-serviceboilerplate/commons/models"
 	"go-serviceboilerplate/commons/utils"
 	"net/http"
 
@@ -14,17 +15,10 @@ type SuccessResponseConfig struct {
 }
 
 type SuccessResponseWithMetadataConfig struct {
-	Code    int         `json:"code"`
-	Message string      `json:"message"`
-	Data    []any 		`json:"data"`
-	Metadata Metadata	`json:"metadata"`
-}
-
-type Metadata struct {
-	TotalCount 	int `json:"total_count"`
-	TotalPage  	int `json:"total_page"`
-	CurrentPage int `json:"current_page"`
-	PerPage    	int `json:"per_page"`
+	Code    int         		`json:"code"`
+	Message string      		`json:"message"`
+	Data    any 				`json:"data"`
+	Metadata models.Metadata	`json:"metadata"`
 }
 
 type ErrorResponseConfig struct {

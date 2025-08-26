@@ -7,11 +7,13 @@ import (
 	"go-serviceboilerplate/infrastrucutres/configurations"
 	"go-serviceboilerplate/infrastrucutres/databases/postgres"
 	"go-serviceboilerplate/infrastrucutres/repositories"
+	"go-serviceboilerplate/interfaces/http/api/articles"
 	"go-serviceboilerplate/interfaces/http/api/system"
 	"go-serviceboilerplate/interfaces/http/middlewares"
 	"go-serviceboilerplate/interfaces/http/validator"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	echoSwagger "github.com/swaggo/echo-swagger"
 )
 
@@ -27,21 +29,29 @@ func main() {
 
 	// Repositories
 	systemRepositories := repositories.NewSystemRepositories(postgres)
+	articleRepositories := repositories.NewArticlesRepository(postgres)
 
 	// Usecases
 	systemUsecase := usecases.NewSystemUsecase(systemRepositories)
+	articleUsecase := usecases.NewArticleUsecases(articleRepositories)
 	
 	// Handlers
 	systemHandler := system.NewSystemHandler(systemUsecase)
+	articleHandler := articles.NewArticlesHandler(articleUsecase)
 
 	// Middlewares & Misc
 	appMiddlewares := middlewares.NewAppMiddlewaresHandler()
 
 	// Routes
 	e := echo.New()
+	e.Use(middleware.Recover())
+	e.Use(middleware.Logger())
+	e.Use(middleware.CORSWithConfig(configs.Env.Application.CORSConfig))
+	
 	e.Validator = validator.NewCustomValidator()
 
 	systemHandler.RegisterRoute(e, appMiddlewares)
+	articleHandler.RegisterRoute(e, appMiddlewares)
 
 	// Swagger
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
