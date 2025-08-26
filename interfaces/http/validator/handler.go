@@ -1,6 +1,8 @@
 package validator
 
 import (
+	"go-serviceboilerplate/commons/utils"
+
 	"github.com/go-playground/validator/v10"
 )
 
@@ -13,5 +15,10 @@ func NewCustomValidator() *CustomValidator {
 }
 
 func (cv *CustomValidator) Validate(i any) error {
-	return cv.validator.Struct(i)
+	err := cv.validator.Struct(i)
+	if err != nil {
+		return utils.NewClientError(err)
+	}
+
+	return err
 }
