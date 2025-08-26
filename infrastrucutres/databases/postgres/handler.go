@@ -2,6 +2,7 @@ package postgres
 
 import (
 	"fmt"
+	"go-serviceboilerplate/commons/models"
 	"go-serviceboilerplate/infrastrucutres/configurations"
 	"log"
 	"os"
@@ -17,7 +18,7 @@ type PostgresInstance struct {
 }
 
 func NewPostgressInstance(configs *configurations.Configs) *PostgresInstance {
-	mainDB := InitDatabase(configs, false)
+	mainDB := InitDatabase(configs, true)
 
 	return &PostgresInstance{DB: mainDB}
 }
@@ -66,14 +67,14 @@ func InitDatabase(configs *configurations.Configs, autoMigrate bool) (DB *gorm.D
 	fmt.Println("Database Successfully Connected")
 
 	if(autoMigrate) {
-		AutoMigrate(DB)
+		AutoMigrate(DB, &models.ArticleDTO{}, &models.CategoriesDTO{})
 	}
 
 	return DB
 }
 
 func AutoMigrate(db *gorm.DB, dst ...interface{}) {
-	err := db.AutoMigrate(dst)
+	err := db.AutoMigrate(dst...)
 
 	if(err != nil) {
 		log.Fatalf("AutoMigrate failed: %v", err)
