@@ -13,16 +13,12 @@ func NewArticleUsecases(articlesRepository *repositories.ArticlesRepository) *Ar
 	return &ArticleUsecases{articlesRepository}
 }
 
-func (r *ArticleUsecases) CreateArticle(payload models.CreateArticleRequest) (models.CreateArticleResponse, error) {
-	articlePayload := models.CreateArticlePayload{
-		Title:   payload.Title,
-		Content: payload.Content,
-		Author: payload.Author,
-	}
-	
-	id, err := r.articlesRepository.CreateArticle(articlePayload)
+func (r *ArticleUsecases) CreateArticle(payload models.CreateArticleRequest) (models.CreateArticleResponse, error) {	
+	id, err := r.articlesRepository.CreateArticle(payload)
 
-	return models.CreateArticleResponse{ID: id}, err
+	response := models.CreateArticleResponse{ID: id}
+
+	return response, err
 }
 
 func (r *ArticleUsecases) GetArticles() ([]models.GetArticlesResponse, models.Metadata, error) {	

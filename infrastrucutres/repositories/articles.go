@@ -14,7 +14,7 @@ func NewArticlesRepository(postgresDB *postgres.PostgresInstance) *ArticlesRepos
 	return &ArticlesRepository{postgresDB}
 }
 
-func (s *ArticlesRepository) CreateArticle(payload models.CreateArticlePayload) (string, error) {
+func (s *ArticlesRepository) CreateArticle(payload models.CreateArticleRequest) (string, error) {
 	article := models.ArticleDTO{
 		Title:   payload.Title,
 		Content: payload.Content,

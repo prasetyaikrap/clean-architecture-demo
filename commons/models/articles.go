@@ -8,12 +8,6 @@ type CreateArticleRequest struct {
 	Author      			string   	`json:"author" validate:"required,min=3"`
 }
 
-type CreateArticlePayload struct {
-	Title      				string   	
-	Content    				string   	
-	Author      			string   	
-}
-
 type CreateArticleResponse struct {
 	ID       				string   	`json:"id"`
 }
