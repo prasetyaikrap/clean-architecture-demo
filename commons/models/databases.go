@@ -11,8 +11,6 @@ type ArticleDTO struct {
 	CreatedAt 				time.Time		`json:"created_at"`
 	UpdatedAt 				time.Time		`json:"updated_at"`
 	DeletedAt 				time.Time 		`json:"deleted_at" gorm:"index"`
-
-	Categories 				[]CategoriesDTO `json:"categories" gorm:"many2many:articles_categories;"`
 }
 
 func (ArticleDTO) TableName() string {
@@ -26,10 +24,20 @@ type CategoriesDTO struct {
 	CreatedAt 				time.Time		`json:"created_at"`
 	UpdatedAt 				time.Time		`json:"updated_at"`
 	DeletedAt 				time.Time 		`json:"deleted_at" gorm:"index"`
-
-	Articles []ArticleDTO `json:"articles" gorm:"many2many:articles_categories;"`
 }
 
 func (CategoriesDTO) TableName() string {
 	return "categories"
+}
+
+type ArticlesCategoriesDTO struct {
+	ArticleID        	string          `json:"article_id" gorm:"type:uuid;index;not null"`
+	CategoryID        	string          `json:"category_id" gorm:"type:uuid;index;not null"`
+
+	Article  ArticleDTO  `gorm:"foreignKey:ArticleID;references:ID;constraint:OnDelete:CASCADE"`
+    Category CategoriesDTO `gorm:"foreignKey:CategoryID;references:ID;constraint:OnDelete:CASCADE"`
+}
+
+func (ArticlesCategoriesDTO) TableName() string {
+	return "articles_categories"
 }

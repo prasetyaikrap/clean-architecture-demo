@@ -67,7 +67,7 @@ func InitDatabase(configs *configurations.Configs, autoMigrate bool) (DB *gorm.D
 	fmt.Println("Database Successfully Connected")
 
 	if(autoMigrate) {
-		AutoMigrate(DB, &models.ArticleDTO{}, &models.CategoriesDTO{})
+		AutoMigrate(DB, &models.ArticleDTO{}, &models.CategoriesDTO{}, &models.ArticlesCategoriesDTO{})
 	}
 
 	return DB

@@ -35,14 +35,6 @@ func (r *ArticleUsecases) GetArticles() ([]models.GetArticlesResponse, models.Me
 
 	for _, article := range articles {
 		categories := []models.ArticleCategories{}
-		for _, category := range article.Categories {
-			category := models.ArticleCategories{
-				ID:          category.ID,
-				Title:       category.Title,
-				Description: category.Description,
-			}
-			categories = append(categories, category)
-		}
 		article := models.GetArticlesResponse{
 			ID:        article.ID,
 			Title:     article.Title,
