@@ -7,6 +7,7 @@ type ArticleDTO struct {
 	Title					string			`json:"title" gorm:"type:varchar(255);not null"`
 	Content					string			`json:"content" gorm:"type:text;not null"`
 	Author					string			`json:"author" gorm:"type:varchar(100);not null"`
+	UpdatedBy				string			`json:"updated_by" gorm:"type:varchar(100);default:'';not null"`
 	CreatedAt 				time.Time		`json:"created_at"`
 	UpdatedAt 				time.Time		`json:"updated_at"`
 	DeletedAt 				time.Time 		`json:"deleted_at" gorm:"index"`

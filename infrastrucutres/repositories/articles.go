@@ -19,6 +19,7 @@ func (s *ArticlesRepository) CreateArticle(payload models.CreateArticlePayload) 
 		Title:   payload.Title,
 		Content: payload.Content,
 		Author: payload.Author,
+		UpdatedBy: payload.Author,
 	}
 
 	result := s.postgresDB.DB.Create(&article)
